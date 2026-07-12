@@ -38,15 +38,7 @@ Proyecto de endurecimiento de la red de una empresa con casa matriz en **Santiag
 
 ## 🗺️ Topología
 
-![Topología de la red — Packet Tracer](topologia.png)
-
-**Zonas de seguridad del ASA (FW-VINA):**
-
-| Interfaz física | VLAN | nameif | Nivel | IP |
-|---|---|---|---|---|
-| Ethernet0/1 | Vlan1 | `inside` | 100 | 192.168.23.1/24 |
-| Ethernet0/0 | Vlan2 | `outside` | 0 | 177.44.56.6/29 |
-| Ethernet0/2 | Vlan3 | `dmz` | 50 | 10.20.30.1/27 |
+<img width="1075" height="617" alt="image" src="https://github.com/user-attachments/assets/e6083198-4f2c-4a35-bf67-a75b31bba7ee" />
 
 ---
 
