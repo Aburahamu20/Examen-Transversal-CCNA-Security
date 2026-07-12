@@ -42,34 +42,34 @@ Proyecto de endurecimiento de la red de una empresa con casa matriz en **Santiag
 flowchart TB
     ISP["ISP · 2911<br/>Lo1 1.1.1.1"]:::router
 
-    subgraph SANTIAGO["🏢 Casa Matriz — Santiago"]
+    subgraph SANTIAGO["🏢 Casa Matriz — Santiago (izquierda)"]
         direction TB
         EDGE["Edge-Santiago · 2911"]:::router
         AAA["AAA-SYSLOG<br/>172.16.0.14"]:::server
         SW1["SW1 · 2960"]:::switch
         PC2["PC2 · VLAN15<br/>172.15.15.10"]:::pc
         PC3["PC3 · VLAN25<br/>172.25.25.10"]:::pc
+        EDGE ---|"172.16.0.0/28 · G0/2"| AAA
+        EDGE ---|"trunk VLAN 15/25 · G0/0"| SW1
+        SW1 --- PC2
+        SW1 --- PC3
     end
 
-    subgraph VINA["🏢 Sucursal — Viña del Mar"]
+    subgraph VINA["🏢 Sucursal — Viña del Mar (derecha)"]
         direction TB
         ASA["FW-VINA<br/>ASA 5505"]:::fw
         WEB["Servidor Web · DMZ<br/>10.20.30.30"]:::server
         SW0["Switch0"]:::switch
         PC0["PC0"]:::pc
         PC1["PC1"]:::pc
+        ASA ---|"DMZ 10.20.30.0/27 · E0/2"| WEB
+        ASA ---|"INSIDE 192.168.23.0/24 · E0/1"| SW0
+        SW0 --- PC0
+        SW0 --- PC1
     end
 
-    ISP ===|"200.2.7.0/29 · G0/1 ↔ G0/1"| EDGE
+    EDGE ===|"200.2.7.0/29 · G0/1 ↔ G0/1"| ISP
     ISP ===|"177.44.56.0/29 · G0/0 ↔ E0/0 (outside)"| ASA
-    EDGE ---|"172.16.0.0/28 · G0/2"| AAA
-    EDGE ---|"trunk VLAN 15/25 · G0/0"| SW1
-    SW1 --- PC2
-    SW1 --- PC3
-    ASA ---|"DMZ 10.20.30.0/27 · E0/2"| WEB
-    ASA ---|"INSIDE 192.168.23.0/24 · E0/1"| SW0
-    SW0 --- PC0
-    SW0 --- PC1
 
     classDef router fill:#1BA0D7,stroke:#0b6a8f,color:#fff
     classDef switch fill:#7d5ba6,stroke:#4b356b,color:#fff
