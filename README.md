@@ -39,10 +39,8 @@ Proyecto de endurecimiento de la red de una empresa con casa matriz en **Santiag
 ## 🗺️ Topología
 
 ```mermaid
-flowchart TB
-    ISP["ISP · 2911<br/>Lo1 1.1.1.1"]:::router
-
-    subgraph SANTIAGO["🏢 Casa Matriz — Santiago (izquierda)"]
+flowchart LR
+    subgraph SANTIAGO["🏢 Casa Matriz — Santiago"]
         direction TB
         EDGE["Edge-Santiago · 2911"]:::router
         AAA["AAA-SYSLOG<br/>172.16.0.14"]:::server
@@ -55,7 +53,9 @@ flowchart TB
         SW1 --- PC3
     end
 
-    subgraph VINA["🏢 Sucursal — Viña del Mar (derecha)"]
+    ISP["ISP · 2911<br/>Lo1 1.1.1.1"]:::router
+
+    subgraph VINA["🏢 Sucursal — Viña del Mar"]
         direction TB
         ASA["FW-VINA<br/>ASA 5505"]:::fw
         WEB["Servidor Web · DMZ<br/>10.20.30.30"]:::server
