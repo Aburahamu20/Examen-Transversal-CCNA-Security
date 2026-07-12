@@ -7,10 +7,17 @@
 
 Proyecto de endurecimiento de la red de una empresa con casa matriz en **Santiago** y sucursal en **Viña del Mar**. Cubre hardening de dispositivos, AAA/RADIUS, control de acceso, firewall ASA, VPN site-to-site e IOS IPS.
 
-> **Integrantes:** Abraham Castro · Bárbara Saavedra
-> **Docente:** Jaime Andrés Gómez González
-> **Sección:** 002V
-> **Fecha:** 11 de julio de 2026
+---
+
+**Integrantes:**
+- Abraham Castro
+- Bárbara Saavedra
+
+**Docente:** Jaime Andrés Gómez González
+
+**Fecha:** 11 de julio de 2026
+
+**Sección:** 002V
 
 ---
 
