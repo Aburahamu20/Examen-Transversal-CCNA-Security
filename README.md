@@ -38,22 +38,44 @@ Proyecto de endurecimiento de la red de una empresa con casa matriz en **Santiag
 
 ## 🗺️ Topología
 
-```
-        ┌───────────┐   200.2.7.0/29        177.44.56.0/29   ┌──────────┐
-        │    ISP    │ G0/1            G0/0                    │ FW-VINA  │
-        │  (2911)   ●──────────●   .1        .6   ●───────────● ASA 5505 │
-        │ Lo1:1.1.1.1│ .1     ╱                    ╲ E0/0(out) │  "55"    │
-        └─────●─────┘        ╱                      ╲          └──┬────┬──┘
-              │ G0/1 .6     ╱                        ╲       E0/2 │    │ E0/1
-        ┌─────┴──────┐     ╱                          ╲     (dmz) │    │ (inside)
-        │Edge-Santiago│G0/2 172.16.0.1/28         DMZ ●────┐  ┌───●   192.168.23.0/24
-        │   (2911)   ●──────● AAA-SYSLOG          10.20.30.0/27 │      │
-        └──┬─────────┘        172.16.0.14        Servidor Web   │   ┌──┴───┐
-       G0/0│ (trunk .15/.25)                     10.20.30.30    │   │Switch0│
-        ┌──┴───┐                                                │   └─┬──┬─┘
-        │ SW1  │ VLAN15: 172.15.15.0/24 (PC2)                   │   PC0  PC1
-        │(2960)│ VLAN25: 172.25.25.0/24 (PC3)                   │
-        └──────┘ SVI VLAN15: 172.15.15.254                      │
+```mermaid
+flowchart TB
+    ISP["ISP · 2911<br/>Lo1 1.1.1.1"]:::router
+
+    subgraph SANTIAGO["🏢 Casa Matriz — Santiago"]
+        direction TB
+        EDGE["Edge-Santiago · 2911"]:::router
+        AAA["AAA-SYSLOG<br/>172.16.0.14"]:::server
+        SW1["SW1 · 2960"]:::switch
+        PC2["PC2 · VLAN15<br/>172.15.15.10"]:::pc
+        PC3["PC3 · VLAN25<br/>172.25.25.10"]:::pc
+    end
+
+    subgraph VINA["🏢 Sucursal — Viña del Mar"]
+        direction TB
+        ASA["FW-VINA<br/>ASA 5505"]:::fw
+        WEB["Servidor Web · DMZ<br/>10.20.30.30"]:::server
+        SW0["Switch0"]:::switch
+        PC0["PC0"]:::pc
+        PC1["PC1"]:::pc
+    end
+
+    ISP ===|"200.2.7.0/29 · G0/1 ↔ G0/1"| EDGE
+    ISP ===|"177.44.56.0/29 · G0/0 ↔ E0/0 (outside)"| ASA
+    EDGE ---|"172.16.0.0/28 · G0/2"| AAA
+    EDGE ---|"trunk VLAN 15/25 · G0/0"| SW1
+    SW1 --- PC2
+    SW1 --- PC3
+    ASA ---|"DMZ 10.20.30.0/27 · E0/2"| WEB
+    ASA ---|"INSIDE 192.168.23.0/24 · E0/1"| SW0
+    SW0 --- PC0
+    SW0 --- PC1
+
+    classDef router fill:#1BA0D7,stroke:#0b6a8f,color:#fff
+    classDef switch fill:#7d5ba6,stroke:#4b356b,color:#fff
+    classDef fw fill:#e8590c,stroke:#a03d05,color:#fff
+    classDef server fill:#2b8a3e,stroke:#1a5427,color:#fff
+    classDef pc fill:#495057,stroke:#212529,color:#fff
 ```
 
 **Zonas de seguridad del ASA (FW-VINA):**
